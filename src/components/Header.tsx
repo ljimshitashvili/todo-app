@@ -28,6 +28,7 @@ const Container = styled.div<{ light: boolean }>`
   justify-content: space-between;
   width: 100%;
   padding: 48px 25px 40px 25px;
+  max-width: 375px;
 
   div {
     .sun {
