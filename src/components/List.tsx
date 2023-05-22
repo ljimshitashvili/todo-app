@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { Task } from "../store/AllTaskSlice";
 import xIcon from "../assets/todo-app-main/icon-cross.svg";
+import { changeCompletion } from "../store/AllTaskSlice";
+import { addCompletedTask } from "../store/CompletedSlice";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
 
 interface Props {
   task: Task[];
@@ -8,6 +11,8 @@ interface Props {
 
 export default function List({ task }: Props) {
   let counter = 0;
+  const dispatch = useDispatch();
+
   return (
     <Container>
       {task.map((task) => {
@@ -15,7 +20,13 @@ export default function List({ task }: Props) {
         return (
           <div key={task.id}>
             <div className="container">
-              <div className="circle"></div>
+              <button
+                className="circle"
+                onClick={() => {
+                  dispatch(changeCompletion(task.id));
+                  dispatch(addCompletedTask(task));
+                }}
+              ></button>
               <p>{task.task}</p>
               <img src={xIcon} alt="X Icon" />
             </div>
@@ -63,6 +74,8 @@ const Container = styled.div`
         aspect-ratio: 1/1;
         border-radius: 50%;
         border: 1px solid rgba(211, 211, 211, 0.7);
+        background-color: transparent;
+        cursor: pointer;
       }
 
       p {

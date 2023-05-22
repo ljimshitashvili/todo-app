@@ -5,29 +5,27 @@ import { useSelector } from "react-redux/es/exports";
 import { RootState } from "./store/redux";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 
-import {
-  desktopLight,
-  desktopDark,
-  mobLight,
-  mobDark,
-} from "./assets/todo-app-main";
+import { mobLight, mobDark } from "./assets/todo-app-main";
 
 import { Header, CreateNew, List } from "./components";
 import { addTask } from "./store/AllTaskSlice";
+import ControlPanel from "./components/ControlPanel";
 
 function App() {
   const [light, setLight] = useState<boolean>(true);
   const [inputValue, setInputValue] = useState<string>("");
-  console.log(inputValue);
   const dispatch = useDispatch();
   const task = useSelector((store: RootState) => store.task.tasks);
+  const completed = useSelector((store: RootState) => store.complete.tasks);
 
   useEffect(() => {
     if (inputValue !== "") {
       dispatch(addTask(inputValue));
     }
-    console.log(task);
   }, [inputValue]);
+
+  console.log("completed: ", completed);
+  console.log("all:", task);
 
   return (
     <Container light={light}>
@@ -35,6 +33,8 @@ function App() {
       <Header light={light} setLight={setLight} />
       <CreateNew light={light} setInputValue={setInputValue} />
       <List task={task} />
+      <ControlPanel />
+      <h1>Drag and drop to reorder list</h1>
     </Container>
   );
 }
