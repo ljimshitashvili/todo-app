@@ -1,29 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, Slice } from "@reduxjs/toolkit";
 
-interface TaskTypes {
-  name: string;
-  actions?: any;
+export interface Task {
+  id: number;
+  task: string;
+  isComplete: boolean;
 }
 
-const allTaskSlice: TaskTypes = createSlice({
+interface AllTasksState {
+  tasks: Task[];
+  maxId: number;
+}
+
+const initialState: AllTasksState = {
+  tasks: [],
+  maxId: 0,
+};
+
+const allTaskSlice: Slice = createSlice({
   name: "AllTasks",
-  initialState: {
-    id: 0,
-    task: "",
-    isComplete: false,
-  },
+  initialState,
   reducers: {
-    addTask: (state, action) => {
-      state.id = state.id + 1;
-      [...state.task, action.payload];
-      state.isComplete = false;
+    addTask: (state = initialState, action) => {
+      state.tasks = [
+        ...state.tasks,
+        {
+          id: state.maxId,
+          task: action.payload,
+          isComplete: false,
+        },
+      ];
+      state.maxId++;
     },
     removeAll: (state) => {
-      state.task = "";
+      state.tasks = [];
     },
   },
 });
 
 export const { addTask, removeAll } = allTaskSlice.actions;
-
 export default allTaskSlice.reducer;

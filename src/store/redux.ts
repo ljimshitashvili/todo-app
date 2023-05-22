@@ -3,8 +3,9 @@ import TaskReducer from "./AllTaskSlice";
 
 const store = configureStore({
   reducer: {
-    name: TaskReducer,
+    task: TaskReducer,
   },
 });
 
 export default store;
+export type RootState = ReturnType<typeof store.getState>;

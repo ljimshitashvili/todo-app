@@ -28,12 +28,13 @@ const Container = styled.form<{ light: boolean }>`
   padding: 14px 20px;
   border-radius: 5px;
   gap: 12px;
+  margin-bottom: 16px;
 
   .circle {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 1px solid grey;
+    border: 1px solid rgba(211, 211, 211, 0.7);
   }
 
   input {
