@@ -5,3 +5,5 @@ export { default as mobLight } from "./bg-mobile-light.jpg";
 export { default as TODO } from "./TODO.png";
 export { default as Moon } from "./icon-moon.svg";
 export { default as Sun } from "./icon-sun.svg";
+export { default as xIcon } from "./icon-cross.svg";
+export { default as checkIcon } from "./icon-check.svg";

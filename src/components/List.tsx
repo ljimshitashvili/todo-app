@@ -1,17 +1,25 @@
 import styled from "styled-components";
 import { Task } from "../store/AllTaskSlice";
-import xIcon from "../assets/todo-app-main/icon-cross.svg";
-import { changeCompletion } from "../store/AllTaskSlice";
-import { addCompletedTask } from "../store/CompletedSlice";
+import { xIcon, checkIcon } from "../assets/todo-app-main";
+import { changeCompletion, removeTask } from "../store/AllTaskSlice";
+import { addCompletedTask, removeCompletedTask } from "../store/CompletedSlice";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 
 interface Props {
   task: Task[];
+  completed: Task[];
 }
 
-export default function List({ task }: Props) {
+export default function List({ task, completed }: Props) {
   let counter = 0;
   const dispatch = useDispatch();
+
+  const handleClearCompleted = () => {
+    completed.forEach((Task) => {
+      dispatch(removeCompletedTask(Task.id));
+      dispatch(removeTask(Task.id));
+    });
+  };
 
   return (
     <Container>
@@ -24,11 +32,36 @@ export default function List({ task }: Props) {
                 className="circle"
                 onClick={() => {
                   dispatch(changeCompletion(task.id));
-                  dispatch(addCompletedTask(task));
+                  if (completed.some((completed) => completed.id === task.id)) {
+                    dispatch(removeCompletedTask(task.id));
+                  } else {
+                    dispatch(addCompletedTask(task));
+                  }
                 }}
-              ></button>
-              <p>{task.task}</p>
-              <img src={xIcon} alt="X Icon" />
+                style={{
+                  background: task.isComplete
+                    ? "linear-gradient(135deg, #55DDFF 0%, #C058F3 100%)"
+                    : "transparent",
+                }}
+              >
+                <img src={checkIcon} alt="" />
+              </button>
+              <p
+                style={{
+                  textDecoration: task.isComplete ? "line-through" : "none",
+                  opacity: task.isComplete ? "0.5" : "1",
+                }}
+              >
+                {task.task}
+              </p>
+              <img
+                src={xIcon}
+                alt="X Icon"
+                onClick={() => {
+                  dispatch(removeTask(task.id));
+                  dispatch(removeCompletedTask(task.id));
+                }}
+              />
             </div>
             <hr />
           </div>
@@ -36,7 +69,9 @@ export default function List({ task }: Props) {
       })}
       <Bottom>
         <p className="left">{counter} items left</p>
-        <p className="clear">Clear Completed</p>
+        <p className="clear" onClick={handleClearCompleted}>
+          Clear Completed
+        </p>
       </Bottom>
     </Container>
   );
@@ -74,8 +109,12 @@ const Container = styled.div`
         aspect-ratio: 1/1;
         border-radius: 50%;
         border: 1px solid rgba(211, 211, 211, 0.7);
-        background-color: transparent;
         cursor: pointer;
+
+        img {
+          height: 5px;
+          width: 7.25px;
+        }
       }
 
       p {
@@ -90,6 +129,7 @@ const Container = styled.div`
       img {
         width: 16px;
         aspect-ratio: 1/1;
+        cursor: pointer;
       }
     }
   }
@@ -107,5 +147,9 @@ const Bottom = styled.div`
     line-height: 12px;
     letter-spacing: -0.166667px;
     color: #9495a5;
+  }
+
+  .clear {
+    cursor: pointer;
   }
 `;

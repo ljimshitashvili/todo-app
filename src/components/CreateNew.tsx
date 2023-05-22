@@ -13,7 +13,7 @@ export default function CreateNew({ light, setInputValue }: Props) {
 
   return (
     <Container light={light} onSubmit={handleSubmit}>
-      <div className="circle"></div>
+      <button className="circle" type="submit"></button>
       <input type="text" name="input" placeholder="Create a new todo..." />
     </Container>
   );
@@ -35,6 +35,8 @@ const Container = styled.form<{ light: boolean }>`
     height: 20px;
     border-radius: 50%;
     border: 1px solid rgba(211, 211, 211, 0.7);
+    background-color: transparent;
+    cursor: pointer;
   }
 
   input {

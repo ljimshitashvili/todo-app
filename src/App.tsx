@@ -32,7 +32,7 @@ function App() {
       <GlobalStyle />
       <Header light={light} setLight={setLight} />
       <CreateNew light={light} setInputValue={setInputValue} />
-      <List task={task} />
+      <List task={task} completed={completed} />
       <ControlPanel />
       <h1>Drag and drop to reorder list</h1>
     </Container>

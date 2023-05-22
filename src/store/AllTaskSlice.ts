@@ -1,5 +1,4 @@
 import { createSlice, Slice } from "@reduxjs/toolkit";
-import { addCompletedTask, removeCompletedTask } from "./CompletedSlice";
 export interface Task {
   id: number;
   task: string;
@@ -43,8 +42,14 @@ const allTaskSlice: Slice = createSlice({
         state.tasks[taskIndex].isComplete = !state.tasks[taskIndex].isComplete;
       }
     },
+    removeTask: (state, action) => {
+      state.tasks = state.tasks.filter(
+        (task: Task) => task.id !== action.payload
+      );
+    },
   },
 });
 
-export const { addTask, removeAll, changeCompletion } = allTaskSlice.actions;
+export const { addTask, removeAll, changeCompletion, removeTask } =
+  allTaskSlice.actions;
 export default allTaskSlice.reducer;
