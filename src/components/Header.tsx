@@ -31,6 +31,7 @@ const Container = styled.div<{ light: boolean }>`
   max-width: 375px;
 
   div {
+    cursor: pointer;
     .sun {
       display: ${(p) => (p.light ? "block" : "none")};
     }

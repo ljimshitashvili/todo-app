@@ -4,12 +4,14 @@ import GlobalStyle from "./GlobalStyles";
 import { useSelector } from "react-redux/es/exports";
 import { RootState } from "./store/redux";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { mobLight, mobDark } from "./assets/todo-app-main";
-
+import { addActiveTask } from "./store/ActiveSlice";
 import { Header, CreateNew, List } from "./components";
 import { addTask } from "./store/AllTaskSlice";
 import ControlPanel from "./components/ControlPanel";
+import CompletedList from "./components/CompletedList";
+import ActiveList from "./components/ActiveList";
 
 function App() {
   const [light, setLight] = useState<boolean>(true);
@@ -17,24 +19,47 @@ function App() {
   const dispatch = useDispatch();
   const task = useSelector((store: RootState) => store.task.tasks);
   const completed = useSelector((store: RootState) => store.complete.tasks);
+  const active = useSelector((store: RootState) => store.active.tasks);
 
   useEffect(() => {
     if (inputValue !== "") {
       dispatch(addTask(inputValue));
+      if (!task.isComplete) {
+        dispatch(addActiveTask(inputValue));
+      }
     }
   }, [inputValue]);
 
-  console.log("completed: ", completed);
-  console.log("all:", task);
-
   return (
     <Container light={light}>
-      <GlobalStyle />
-      <Header light={light} setLight={setLight} />
-      <CreateNew light={light} setInputValue={setInputValue} />
-      <List task={task} completed={completed} />
-      <ControlPanel />
-      <h1>Drag and drop to reorder list</h1>
+      <Router>
+        <GlobalStyle />
+        <Header light={light} setLight={setLight} />
+        <CreateNew light={light} setInputValue={setInputValue} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <List
+                task={task}
+                light={light}
+                completed={completed}
+                active={active}
+              />
+            }
+          ></Route>
+          <Route
+            path="active"
+            element={<ActiveList light={light} active={active} />}
+          ></Route>
+          <Route
+            path="completed"
+            element={<CompletedList light={light} completed={completed} />}
+          ></Route>
+        </Routes>
+        <ControlPanel light={light} />
+        <h1>Drag and drop to reorder list</h1>
+      </Router>
     </Container>
   );
 }

@@ -47,7 +47,7 @@ const Container = styled.form<{ light: boolean }>`
     font-size: 12px;
     line-height: 12px;
     letter-spacing: -0.166667px;
-    color: #393a4b;
+    color: ${(p) => (p.light ? "#393a4b" : "#C8CBE7")};
     background-color: transparent;
   }
 
@@ -56,6 +56,6 @@ const Container = styled.form<{ light: boolean }>`
     font-size: 12px;
     line-height: 12px;
     letter-spacing: -0.166667px;
-    color: #9495a5;
+    color: ${(p) => (p.light ? "#9495a5" : "#767992")};
   }
 `;

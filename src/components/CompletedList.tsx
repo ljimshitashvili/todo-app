@@ -1,32 +1,28 @@
-import styled from "styled-components";
-import { Task } from "../store/AllTaskSlice";
-import { xIcon, checkIcon } from "../assets/todo-app-main";
-import { changeCompletion, removeTask } from "../store/AllTaskSlice";
-import { addCompletedTask, removeCompletedTask } from "../store/CompletedSlice";
+import { styled } from "styled-components";
+import { Task, removeTask } from "../store/AllTaskSlice";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
-import { addActiveTask, removeActiveTask } from "../store/ActiveSlice";
+import { changeCompletion } from "../store/AllTaskSlice";
+import { addCompletedTask, removeCompletedTask } from "../store/CompletedSlice";
+import { xIcon, checkIcon } from "../assets/todo-app-main";
 
 interface Props {
-  task: Task[];
   completed: Task[];
-  active: Task[];
   light: boolean;
 }
 
-export default function List({ task, completed, active, light }: Props) {
+export default function CompletedList({ completed, light }: Props) {
   let counter = 0;
   const dispatch = useDispatch();
 
   const handleClearCompleted = () => {
     completed.forEach((Task) => {
       dispatch(removeCompletedTask(Task.id));
-      dispatch(removeTask(Task.id));
     });
   };
 
   return (
     <Container light={light}>
-      {task.map((task) => {
+      {completed.map((task) => {
         counter++;
         return (
           <div key={task.id}>
@@ -34,43 +30,17 @@ export default function List({ task, completed, active, light }: Props) {
               <button
                 className="circle"
                 onClick={() => {
-                  if (task.isComplete) {
-                    if (
-                      completed.some((completed) => completed.id === task.id)
-                    ) {
-                      dispatch(removeCompletedTask(task.id));
-                    }
-                    if (
-                      active.some((activeTask) => activeTask.id === task.id)
-                    ) {
-                      dispatch(addActiveTask(task));
-                    }
+                  dispatch(changeCompletion(task.id));
+                  if (completed.some((completed) => completed.id === task.id)) {
+                    dispatch(removeCompletedTask(task.id));
                   } else {
                     dispatch(addCompletedTask(task));
-                    dispatch(removeActiveTask(task.id));
                   }
-                  dispatch(changeCompletion(task.id));
-                }}
-                style={{
-                  background: task.isComplete
-                    ? "linear-gradient(135deg, #55DDFF 0%, #C058F3 100%)"
-                    : "transparent",
                 }}
               >
-                <img
-                  src={checkIcon}
-                  alt=""
-                  style={{ display: task.isComplete ? "" : "none" }}
-                />
+                <img src={checkIcon} alt="" />
               </button>
-              <p
-                style={{
-                  textDecoration: task.isComplete ? "line-through" : "none",
-                  opacity: task.isComplete ? "0.5" : "1",
-                }}
-              >
-                {task.task}
-              </p>
+              <p>{task.task}</p>
               <img
                 src={xIcon}
                 alt="X Icon"
@@ -84,6 +54,7 @@ export default function List({ task, completed, active, light }: Props) {
           </div>
         );
       })}
+
       <Bottom>
         <p className="left">{counter} items left</p>
         <p className="clear" onClick={handleClearCompleted}>
@@ -127,6 +98,7 @@ const Container = styled.div<{ light: boolean }>`
         border-radius: 50%;
         border: 1px solid rgba(211, 211, 211, 0.7);
         cursor: pointer;
+        background: linear-gradient(135deg, #55ddff 0%, #c058f3 100%);
 
         img {
           height: 5px;
@@ -141,6 +113,8 @@ const Container = styled.div<{ light: boolean }>`
         line-height: 12px;
         letter-spacing: -0.166667px;
         color: ${(p) => (p.light ? "#494c6b" : "#C8CBE7")};
+        text-decoration: line-through;
+        opacity: 0.5;
       }
 
       img {
