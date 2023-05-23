@@ -58,4 +58,28 @@ const Container = styled.form<{ light: boolean }>`
     letter-spacing: -0.166667px;
     color: ${(p) => (p.light ? "#9495a5" : "#767992")};
   }
+
+  @media (min-width: 1024px) {
+    max-width: 540px;
+    padding: 20px 22px;
+    gap: 24px;
+    margin-bottom: 24px;
+
+    .circle {
+      width: 24px;
+      height: 24px;
+    }
+
+    input {
+      font-size: 18px;
+      line-height: 18px;
+      letter-spacing: -0.25px;
+    }
+
+    input::placeholder {
+      font-size: 18px;
+      line-height: 18px;
+      letter-spacing: -0.25px;
+    }
+  }
 `;

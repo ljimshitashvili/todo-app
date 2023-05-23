@@ -5,13 +5,22 @@ import { useSelector } from "react-redux/es/exports";
 import { RootState } from "./store/redux";
 import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { mobLight, mobDark } from "./assets/todo-app-main";
+import {
+  mobLight,
+  mobDark,
+  desktopDark,
+  desktopLight,
+} from "./assets/todo-app-main";
 import { addActiveTask } from "./store/ActiveSlice";
-import { Header, CreateNew, List } from "./components";
 import { addTask } from "./store/AllTaskSlice";
-import ControlPanel from "./components/ControlPanel";
-import CompletedList from "./components/CompletedList";
-import ActiveList from "./components/ActiveList";
+import {
+  Header,
+  CreateNew,
+  List,
+  ControlPanel,
+  CompletedList,
+  ActiveList,
+} from "./components";
 
 function App() {
   const [light, setLight] = useState<boolean>(true);
@@ -20,6 +29,7 @@ function App() {
   const task = useSelector((store: RootState) => store.task.tasks);
   const completed = useSelector((store: RootState) => store.complete.tasks);
   const active = useSelector((store: RootState) => store.active.tasks);
+  const [path, setpath] = useState<string>("");
 
   useEffect(() => {
     if (inputValue !== "") {
@@ -45,13 +55,19 @@ function App() {
                 light={light}
                 completed={completed}
                 active={active}
+                setpath={setpath}
               />
             }
           ></Route>
           <Route
             path="active"
             element={
-              <ActiveList light={light} active={active} completed={completed} />
+              <ActiveList
+                light={light}
+                active={active}
+                completed={completed}
+                setpath={setpath}
+              />
             }
           ></Route>
           <Route
@@ -61,11 +77,12 @@ function App() {
                 light={light}
                 completed={completed}
                 active={active}
+                setpath={setpath}
               />
             }
           ></Route>
         </Routes>
-        <ControlPanel light={light} />
+        <ControlPanel light={light} path={path} />
       </Router>
     </Container>
   );
@@ -83,4 +100,8 @@ const Container = styled.div<{ light: boolean }>`
   background-image: url(${(p) => (p.light ? mobLight : mobDark)});
   background-repeat: no-repeat;
   background-size: 100%;
+
+  @media (min-width: 1024px) {
+    background-image: url(${(p) => (p.light ? desktopLight : desktopDark)});
+  }
 `;

@@ -40,4 +40,9 @@ const Container = styled.div<{ light: boolean }>`
       display: ${(p) => (!p.light ? "block" : "none")};
     }
   }
+
+  @media (min-width: 1024px) {
+    padding: 70px 0 48px 0;
+    max-width: 540px;
+  }
 `;

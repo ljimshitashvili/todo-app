@@ -5,15 +5,29 @@ import { changeCompletion, removeTask } from "../store/AllTaskSlice";
 import { addCompletedTask, removeCompletedTask } from "../store/CompletedSlice";
 import { useDispatch } from "react-redux";
 import { addActiveTask, removeActiveTask } from "../store/ActiveSlice";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   task: Task[];
   completed: Task[];
   active: Task[];
   light: boolean;
+  setpath: (path: string) => void;
 }
 
-export default function List({ task, completed, active, light }: Props) {
+export default function List({
+  task,
+  completed,
+  active,
+  light,
+  setpath,
+}: Props) {
+  const location = useLocation().pathname;
+  useEffect(() => {
+    setpath(location);
+  }, [location]);
+
   let counter = 0;
   const dispatch = useDispatch();
 
@@ -151,6 +165,34 @@ const Container = styled.div<{ light: boolean }>`
       }
     }
   }
+
+  @media (min-width: 1024px) {
+    max-width: 540px;
+    box-shadow: ${(p) =>
+      p.light
+        ? "0px 35px 50px -15px rgba(194, 195, 214, 0.5)"
+        : "0px 35px 50px -15px rgba(0, 0, 0, 0.5)"};
+
+    div {
+      .container {
+        padding: 24px 20px;
+
+        .circle {
+          width: 24px;
+        }
+
+        p {
+          font-size: 18px;
+          line-height: 18px;
+          letter-spacing: -0.25px;
+        }
+
+        img {
+          width: 24px;
+        }
+      }
+    }
+  }
 `;
 
 const Bottom = styled.div`
@@ -169,5 +211,16 @@ const Bottom = styled.div`
 
   .clear {
     cursor: pointer;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 16px 24px;
+
+    .left,
+    .clear {
+      font-size: 14px;
+      line-height: 14px;
+      letter-spacing: -0.19px;
+    }
   }
 `;
