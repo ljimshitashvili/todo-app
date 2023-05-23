@@ -3,7 +3,7 @@ import { Task } from "../store/AllTaskSlice";
 import { xIcon, checkIcon } from "../assets/todo-app-main";
 import { changeCompletion, removeTask } from "../store/AllTaskSlice";
 import { addCompletedTask, removeCompletedTask } from "../store/CompletedSlice";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useDispatch } from "react-redux";
 import { addActiveTask, removeActiveTask } from "../store/ActiveSlice";
 
 interface Props {
@@ -76,6 +76,7 @@ export default function List({ task, completed, active, light }: Props) {
                 alt="X Icon"
                 onClick={() => {
                   dispatch(removeTask(task.id));
+                  dispatch(removeActiveTask(task.id));
                   dispatch(removeCompletedTask(task.id));
                 }}
               />

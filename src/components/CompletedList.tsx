@@ -1,16 +1,19 @@
 import { styled } from "styled-components";
 import { Task, removeTask } from "../store/AllTaskSlice";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useDispatch } from "react-redux";
 import { changeCompletion } from "../store/AllTaskSlice";
 import { addCompletedTask, removeCompletedTask } from "../store/CompletedSlice";
+import { addActiveTask, removeActiveTask } from "../store/ActiveSlice";
+
 import { xIcon, checkIcon } from "../assets/todo-app-main";
 
 interface Props {
   completed: Task[];
   light: boolean;
+  active: Task[];
 }
 
-export default function CompletedList({ completed, light }: Props) {
+export default function CompletedList({ completed, light, active }: Props) {
   let counter = 0;
   const dispatch = useDispatch();
 
@@ -30,12 +33,22 @@ export default function CompletedList({ completed, light }: Props) {
               <button
                 className="circle"
                 onClick={() => {
-                  dispatch(changeCompletion(task.id));
-                  if (completed.some((completed) => completed.id === task.id)) {
-                    dispatch(removeCompletedTask(task.id));
+                  if (task.isComplete) {
+                    if (
+                      completed.some((completed) => completed.id === task.id)
+                    ) {
+                      dispatch(addCompletedTask(task.id));
+                    }
+                    if (
+                      active.some((activeTask) => activeTask.id === task.id)
+                    ) {
+                      dispatch(removeActiveTask(task.id));
+                    }
                   } else {
-                    dispatch(addCompletedTask(task));
+                    dispatch(removeCompletedTask(task.id));
+                    dispatch(addActiveTask(task.task));
                   }
+                  dispatch(changeCompletion(task.id));
                 }}
               >
                 <img src={checkIcon} alt="" />
