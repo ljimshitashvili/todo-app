@@ -86,6 +86,7 @@ export default function List({
                 {task.task}
               </p>
               <img
+                className="img"
                 src={xIcon}
                 alt="X Icon"
                 onClick={() => {
@@ -99,7 +100,7 @@ export default function List({
           </div>
         );
       })}
-      <Bottom>
+      <Bottom light={light}>
         <p className="left">{counter} items left</p>
         <p className="clear" onClick={handleClearCompleted}>
           Clear Completed
@@ -134,7 +135,7 @@ const Container = styled.div<{ light: boolean }>`
       padding: 16px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 24px;
 
       .circle {
         width: 20px;
@@ -146,6 +147,7 @@ const Container = styled.div<{ light: boolean }>`
         img {
           height: 5px;
           width: 7.25px;
+          display: unset;
         }
       }
 
@@ -160,8 +162,16 @@ const Container = styled.div<{ light: boolean }>`
 
       img {
         width: 16px;
+        justify-self: end;
         aspect-ratio: 1/1;
         cursor: pointer;
+        display: none;
+      }
+    }
+
+    .container:hover {
+      .img {
+        display: block;
       }
     }
   }
@@ -181,10 +191,16 @@ const Container = styled.div<{ light: boolean }>`
           width: 24px;
         }
 
+        .circle:hover {
+          border-style: solid;
+          border: 1px solid #c058f3;
+        }
+
         p {
           font-size: 18px;
           line-height: 18px;
           letter-spacing: -0.25px;
+          cursor: pointer;
         }
 
         img {
@@ -195,7 +211,7 @@ const Container = styled.div<{ light: boolean }>`
   }
 `;
 
-const Bottom = styled.div`
+const Bottom = styled.div<{ light: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -221,6 +237,10 @@ const Bottom = styled.div`
       font-size: 14px;
       line-height: 14px;
       letter-spacing: -0.19px;
+    }
+
+    .clear:hover {
+      color: ${(p) => (p.light ? "#494c6b" : "#E3E4F1")};
     }
   }
 `;

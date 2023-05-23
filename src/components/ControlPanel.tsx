@@ -46,12 +46,24 @@ const Container = styled.div<Props>`
     color: ${(p) => (p.path === "/" ? "#3A7CFD" : "#9495A5")};
   }
 
+  .all:hover {
+    color: ${(p) => (p.light ? "#494C6B" : "#E3E4F1")};
+  }
+
   .active {
     color: ${(p) => (p.path === "/active" ? "#3A7CFD" : "#9495A5")};
   }
 
+  .active:hover {
+    color: ${(p) => (p.light ? "#494C6B" : "#E3E4F1")};
+  }
+
   .completed {
     color: ${(p) => (p.path === "/completed" ? "#3A7CFD" : "#9495A5")};
+  }
+
+  .completed:hover {
+    color: ${(p) => (p.light ? "#494C6B" : "#E3E4F1")};
   }
 
   @media (min-width: 1024px) {

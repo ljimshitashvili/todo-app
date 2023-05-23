@@ -113,7 +113,7 @@ const Container = styled.div<{ light: boolean }>`
       padding: 16px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 24px;
 
       .circle {
         width: 20px;
@@ -137,6 +137,7 @@ const Container = styled.div<{ light: boolean }>`
         width: 16px;
         aspect-ratio: 1/1;
         cursor: pointer;
+        justify-self: end;
       }
     }
   }
@@ -155,14 +156,27 @@ const Container = styled.div<{ light: boolean }>`
           width: 24px;
         }
 
+        .circle:hover {
+          border-style: solid;
+          border: 1px solid #c058f3;
+        }
+
         p {
           font-size: 18px;
           line-height: 18px;
           letter-spacing: -0.25px;
+          cursor: pointer;
         }
 
         img {
           width: 24px;
+          display: none;
+        }
+      }
+
+      .container:hover {
+        img {
+          display: unset;
         }
       }
     }

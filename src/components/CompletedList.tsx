@@ -114,7 +114,7 @@ const Container = styled.div<{ light: boolean }>`
       padding: 16px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 19px;
 
       .circle {
         width: 20px;
@@ -127,6 +127,7 @@ const Container = styled.div<{ light: boolean }>`
         img {
           height: 5px;
           width: 7.25px;
+          display: unset;
         }
       }
 
@@ -145,6 +146,14 @@ const Container = styled.div<{ light: boolean }>`
         width: 16px;
         aspect-ratio: 1/1;
         cursor: pointer;
+        display: none;
+        justify-self: end;
+      }
+    }
+
+    .container:hover {
+      img {
+        display: unset;
       }
     }
   }
@@ -158,15 +167,22 @@ const Container = styled.div<{ light: boolean }>`
     div {
       .container {
         padding: 24px 20px;
+        gap: 24px;
 
         .circle {
           width: 24px;
+        }
+
+        .circle:hover {
+          border-style: solid;
+          border: 1px solid #c058f3;
         }
 
         p {
           font-size: 18px;
           line-height: 18px;
           letter-spacing: -0.25px;
+          cursor: pointer;
         }
 
         img {
